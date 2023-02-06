@@ -11,34 +11,40 @@
         </div>
         <div class="inner-section">
             <h2>Cyphers</h2>
-            <input :value="character?.cyphers">
+            <input :value="character?.cyphers" @input="event => text = updateCharacter('cyphers', event.target.value)">
         </div>
       </div>
       <div class="section">
         <div class="inner-section">
-            <input :value="character?.name">
-            <input :value="character?.descriptor">
-            <input :value="character?.type">
-            <input :value="character?.focus">
+            <input :value="character?.name" @input="event => text = updateCharacter('name', event.target.value)">
+            <input :value="character?.descriptor" @input="event => text = updateCharacter('descriptor', event.target.value)">
+            <input :value="character?.type" @input="event => text = updateCharacter('type', event.target.value)">
+            <input :value="character?.focus" @input="event => text = updateCharacter('focus', event.target.value)">
         </div>
         <div class="inner-section">
-            <input :value="character?.might">
-            <input :value="character?.speed">
-            <input :value="character?.int">
+            <input :value="character?.might" @input="event => text = updateCharacter('might', event.target.value)">
+            <input :value="character?.mightpool" @input="event => text = updateCharacter('mightpool', event.target.value)">
+            <input :value="character?.mightedge" @input="event => text = updateCharacter('mightedge', event.target.value)">
+            <input :value="character?.speed" @input="event => text = updateCharacter('speed', event.target.value)">
+            <input :value="character?.speedpool" @input="event => text = updateCharacter('speedpool', event.target.value)">
+            <input :value="character?.speededge" @input="event => text = updateCharacter('speededge', event.target.value)">
+            <input :value="character?.int" @input="event => text = updateCharacter('int', event.target.value)">
+            <input :value="character?.intpool" @input="event => text = updateCharacter('intpool', event.target.value)">
+            <input :value="character?.intedge" @input="event => text = updateCharacter('intedge', event.target.value)">
         </div>
       </div>
       <div class="section">
         <div class="inner-section">
             <h2>Skills/Inabilities</h2>
-            <input :value="character?.skills">
+            <input :value="character?.skills" @input="event => text = updateCharacter('skills', event.target.value)">
         </div>
         <div class="inner-section">
             <h2>Equipment</h2>
-            <input :value="character?.equipment">
+            <input :value="character?.equipment" @input="event => text = updateCharacter('equipment', event.target.value)">
         </div>
         <div class="inner-section">
             <h2>Attacks</h2>
-            <input :value="character?.attacks">
+            <input :value="character?.attacks" @input="event => text = updateCharacter('attacks', event.target.value)">
         </div>
       </div>
 

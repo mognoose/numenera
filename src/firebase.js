@@ -15,8 +15,6 @@ const players = db.collection('players');
 export const useLoadCampaigns = async () => {
     const snapshot = await campaign.get()
     return snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
-    // const res = campaign.get();
-    // return res.exists ? res.data() : null;
 }
 
 export const getCampaignByCode = async code => {
@@ -43,30 +41,14 @@ export const useLoadCharacterByCode = (id) => {
     const character = ref()
     const close = players.doc(id).onSnapshot(snap => {
         character.value = snap.data();
-        console.log("data: ", character.value);
     })
     onUnmounted(close);
-    console.log("final: ", character.value);
     return character
 }
 
-// export const useLoadCharacterByCode = (player) => {
-//     const character = ref([])
-//     const close = players.onSnapshot(snapshot => {
-//         character.value = snapshot.doc(player).map(doc => ({ id: doc.id, ...doc.data()}))
-//     })
-//     onUnmounted(close);
-//     return character;
-// }
-
-export const updateCharacter = (slot, value, campaignId, player) => {
-    console.log(slot, value, campaignId, player);
-    const campaignData = campaign.doc(campaignId)
-    return campaignData.set({
-        players: []
-    })
-    // return campaignData.update({
-    //     players[player]: data 
-    // })
-    // return res
+export const updateCharacter = async (slot, value, player) => {
+    const payload = {}
+    payload[slot] = value
+    const res = await players.doc(player).update(payload)
+    return res
 }

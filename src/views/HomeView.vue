@@ -40,7 +40,6 @@ export default {
   },
   async mounted() {
     const campaigns = await useLoadCampaigns();
-    console.log(campaigns);
     this.campaigns = campaigns;
   },
   methods: {
