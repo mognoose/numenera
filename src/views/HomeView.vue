@@ -2,7 +2,7 @@
   <div>
     <Header />
     <div class="home">
-      <div class="cheatsheet-list card mt-4">
+      <div class="campaign-list card mt-4">
         <table>
           <thead>
             <tr>
@@ -12,10 +12,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="cs in charSheets" :key="cs.id" @click="onView(cs.id)">
-              <td>{{ cs.title }}</td>
-              <td>{{ cs.by }}</td>
-              <td>{{ cs.players.length }}</td>
+            <tr v-for="campaign in campaigns" :key="campaign.id" @click="onView(campaign.id)">
+              <td>{{ campaign.title }}</td>
+              <td>{{ campaign.by }}</td>
+              <td>{{ campaign.players.length }}</td>
             </tr>
           </tbody>
         </table>
@@ -26,16 +26,22 @@
 
 <script>
 import Header from "@/components/Header.vue";
-import { useLoadCharSheets } from "@/firebase";
+import { useLoadCampaigns } from "@/firebase";
 
 export default {
   name: "HomeView",
   components: {
     Header,
   },
-  setup() {
-    const charSheets = useLoadCharSheets();
-    return { charSheets };
+  data() {
+    return {
+      campaigns: []
+    }
+  },
+  async mounted() {
+    const campaigns = await useLoadCampaigns();
+    console.log(campaigns);
+    this.campaigns = campaigns;
   },
   methods: {
     async onView(id) {
@@ -58,7 +64,7 @@ export default {
   }
 }
 
-.cheatsheet-list {
+.campaign-list {
   justify-self: center;
   grid-column: 2;
   backdrop-filter: blur(20px);

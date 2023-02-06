@@ -12,6 +12,13 @@ const db = firebaseApp.firestore();
 const campaign = db.collection('campaign');
 const players = db.collection('players');
 
+export const useLoadCampaigns = async () => {
+    const snapshot = await campaign.get()
+    return snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+    // const res = campaign.get();
+    // return res.exists ? res.data() : null;
+}
+
 export const getCampaignByCode = async code => {
     const res = await campaign.doc(code).get();
     return res.exists ? res.data() : null;
@@ -32,9 +39,9 @@ export const getCharsByCampaign = async code => {
     return res;
 }
 
-export const useLoadCharacterByCode = async (id) => {
+export const useLoadCharacterByCode = (id) => {
     const character = ref()
-    const close = await players.doc(id).onSnapshot(snap => {
+    const close = players.doc(id).onSnapshot(snap => {
         character.value = snap.data();
         console.log("data: ", character.value);
     })

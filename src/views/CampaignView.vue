@@ -6,7 +6,7 @@
     <div class="home">
       <div class="section">
         <h2>Characters</h2>
-        <div class="inner-section" v-for="char in chars" :key="char.id" @click="onSelect(char.id)">
+        <div class="inner-section clickable" v-for="char in chars" :key="char.id" @click="onSelect(char.id)">
           <h2>{{char.name}}</h2>
           <h3>{{`${char.descriptor} ${char.type} who ${char.focus}`}}</h3>
           <!-- <pre>
@@ -115,7 +115,7 @@ export default {
     text-decoration: none;
   }
 }
-.inner-section:hover {
+.clickable:hover {
   cursor: pointer;
   background-color: rgba(55, 55, 55, .5);
 }
