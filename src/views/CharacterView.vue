@@ -582,6 +582,11 @@ export default {
   }
 }
 
+textarea:hover {
+  box-shadow: inset 0 0 30px rgba(120, 23, 90, 0.15);
+
+}
+
 
 // 
 // MOBILE VERSION TODO
