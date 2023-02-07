@@ -5,8 +5,8 @@
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Cuprum:wght@400;700&display=swap");
 
-$fg-primary: rgb(188, 199, 213);
-$fg-secondary: rgba(150, 183, 220, 0.5);
+$fg-primary: rgb(120, 23, 90);
+$fg-secondary: rgba(70, 12, 52, 0.5);
 $fg-light: rgb(255, 255, 255);
 
 $bg-primary: rgb(45, 45, 57);
@@ -26,18 +26,30 @@ body {
 }
 
 #app {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: $fg-primary;
-  background-image: url("~@/assets/DemonHunter.jpg");
-  background-size: cover;
-  background-position: center;
+  background-image: url("~@/assets/sheet.png");
+  background-size: auto 100%;
+  background-position: top;
+  background-repeat: no-repeat;
+  height: 816px;
+  width: 1056px;
+}
+.container{
+  width: 1056px;
   height: 100vh;
 }
-
+.blur-bg{
+  background: rgba(255, 255, 255, .15);
+  backdrop-filter: blur(50px);
+}
 .form-group {
   margin: 1em;
   display: grid;
@@ -52,12 +64,13 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
   margin: 2px;
   padding: 0.5em;
   border: 2px solid $fg-primary;
   color: $fg-primary;
-  background-color: $bg-primary;
+  background-color: rgba(0, 0, 0, 0);
   border-radius: 5px;
   font-family: "Cuprum", sans-serif;
   text-transform: uppercase;
@@ -86,16 +99,19 @@ button:disabled {
 
 input {
   margin: 1em;
-  background-color: $dark;
+  background-color: rgba(255, 255, 255, 0);
   border-radius: 0px;
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
+  border-bottom: 3px solid rgba(0, 0, 0, 0);
   transition: 200ms;
 }
 
 input:hover {
-  box-shadow: 0 0 10px $shadow;
+  // box-shadow: 0 0 10px $shadow;
+  border-bottom: 3px solid rgba(70, 12, 52, 0.5);
+
 }
 
 input:focus {

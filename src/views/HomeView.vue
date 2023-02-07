@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container blur-bg">
     <Header />
     <div class="home">
       <div class="campaign-list card mt-4">
@@ -51,11 +51,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .home {
+  flex-grow: 1;
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
   row-gap: 2em;
-  background-color: rgba(55, 55, 55, 0);
   padding: 3em;
   @media only screen and (max-width: 600px) {
     grid-template-columns: 1fr;
@@ -74,6 +75,6 @@ export default {
 tbody tr:hover {
   transition: 250ms;
   cursor: pointer;
-  background-color: rgba(55, 55, 55, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 </style>

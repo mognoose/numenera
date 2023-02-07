@@ -24,8 +24,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .header {
-  background: rgb(0, 0, 0);
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
   padding: 5em;
 }
 
@@ -41,5 +39,6 @@ export default {
 
 h1 {
   margin: 0;
+  color: --var('fg-primary');
 }
 </style>
