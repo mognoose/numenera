@@ -6,8 +6,8 @@
     <div class="home">
       <div class="section">
         <h2>Story</h2>
-        <div class="inner-section">
-          <p>{{campaign.story}}</p>
+        <div class="inner-section" contenteditable @input="onSave">
+          {{campaign.story}}
         </div>
       </div>
       <div class="section">
@@ -24,7 +24,7 @@
 
 <script>
 import Header from "@/components/Header.vue";
-import { getCampaignByCode, getCharsByCampaign } from "@/firebase";
+import { getCampaignByCode, getCharsByCampaign, updateCampaign } from "@/firebase";
 
 export default {
   name: "CampaignView",
@@ -52,6 +52,11 @@ export default {
     async onSelect(player) {
       this.$router.push(`/${this.$route.params.id}/${player}`);
     },
+    async onSave(e) {
+      console.log(e.target.innerText);
+      const res = updateCampaign('story', e.target.innerText, this.$route.params.id);
+      console.log(res);
+    }
   },
 };
 </script>

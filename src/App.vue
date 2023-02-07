@@ -45,7 +45,7 @@ body {
 }
 .container{
   width: 1056px;
-  height: 100vh;
+  height: 1632px;
 }
 .blur-bg{
   background: rgba(255, 255, 255, .15);

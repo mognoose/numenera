@@ -22,6 +22,13 @@ export const getCampaignByCode = async code => {
     return res.exists ? res.data() : null;
 }
 
+export const updateCampaign = async (slot, value, id) => {
+    const payload = {}
+    payload[slot] = value
+    const res = await campaign.doc(id).update(payload)
+    return res
+}
+
 export const getCharsByCampaign = async code => {
     let res = []
     await players.where("campaign", "==", code)
