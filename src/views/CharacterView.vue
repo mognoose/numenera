@@ -12,6 +12,16 @@
             <input :value="character?.cypherlimit" @input="event => text = updateCharacter('cypherlimit', event.target.value)">
             <textarea :value="character?.cyphers" @input="event => text = updateCharacter('cyphers', event.target.value)" />
         </div>
+                    
+        <div class="inner-section" id="background">
+            <textarea :value="character?.background" @input="event => text = updateCharacter('background', event.target.value)" />
+        </div>
+                    
+        <div class="inner-section" id="crafting">
+            <textarea :value="character?.crafting" @input="event => text = updateCharacter('crafting', event.target.value)" />
+            <input class="round-input" :value="character?.materials" @input="event => text = updateCharacter('materials', event.target.value)">
+            <input class="round-input" :value="character?.parts" @input="event => text = updateCharacter('parts', event.target.value)">
+        </div>
       </div>
       <div class="section">
         <div class="inner-section" id="basic">
@@ -40,15 +50,30 @@
 
             <input class="round-input" :value="character?.recovery" @input="event => text = updateCharacter('recovery', event.target.value)">
 
-            <span @click="updateCharacter('oneaction', !character.oneaction)">{{ character.oneaction ? '✔' : '' }}</span>
-            <span @click="updateCharacter('tenmins', !character.tenmins)">{{ character.tenmins ? '✔' : '' }}</span>
+            <span @click="updateCharacter('oneaction', !character.oneaction)">{{ character.oneaction ? '✔' : ' ' }}</span>
+            <span @click="updateCharacter('tenmins', !character.tenmins)">{{ character.tenmins ? '✔' : ' ' }}</span>
 
-            <span @click="updateCharacter('onehour', !character.onehour)">{{ character.onehour ? '✔' : '' }}</span>
-            <span @click="updateCharacter('tenhours', !character.tenhours)">{{ character.tenhours ? '✔' : '' }}</span>
+            <span @click="updateCharacter('onehour', !character.onehour)">{{ character.onehour ? '✔' : ' ' }}</span>
+            <span @click="updateCharacter('tenhours', !character.tenhours)">{{ character.tenhours ? '✔' : ' ' }}</span>
 
-            <span @click="updateCharacter('impaired', !character.impaired)">{{ character.impaired ? '✔' : '' }}</span>
-            <span @click="updateCharacter('debilitated', !character.debilitated)">{{ character.debilitated ? '✔' : '' }}</span>
+            <span @click="updateCharacter('impaired', !character.impaired)">{{ character.impaired ? '✔' : ' ' }}</span>
+            <span @click="updateCharacter('debilitated', !character.debilitated)">{{ character.debilitated ? '✔' : ' ' }}</span>
+          
+          </div>
             
+          <div class="inner-section" id="portrait">
+            <input :value="character?.name" @input="event => text = updateCharacter('name', event.target.value)">
+          </div>
+            
+          <div class="inner-section" id="advancement">
+            <span @click="updateCharacter('increaseCapabilities', !character.increaseCapabilities)">{{ character.increaseCapabilities ? '✔' : ' ' }}</span>
+            <span @click="updateCharacter('extraEffort', !character.extraEffort)">{{ character.extraEffort ? '✔' : ' ' }}</span>
+            
+            <span @click="updateCharacter('moveTowardPerfection', !character.moveTowardPerfection)">{{ character.moveTowardPerfection ? '✔' : ' ' }}</span>
+
+            <span @click="updateCharacter('skillTraining', !character.skillTraining)">{{ character.skillTraining ? '✔' : ' ' }}</span>
+            <span @click="updateCharacter('other', !character.other)">{{ character.other ? '✔' : ' ' }}</span>
+
           </div>
         </div>
         <div class="section">
@@ -61,6 +86,12 @@
         </div>
         <div class="inner-section" id="attacks">
             <textarea :value="character?.attacks" @input="event => text = updateCharacter('attacks', event.target.value)" />
+        </div>
+        <div class="inner-section" id="notes">
+            <textarea :value="character?.attacks" @input="event => text = updateCharacter('attacks', event.target.value)" />
+        </div>
+        <div class="inner-section" id="followers">
+            <textarea :value="character?.followers" @input="event => text = updateCharacter('followers', event.target.value)" />
         </div>
       </div>
 
@@ -226,7 +257,7 @@ export default {
 
 #stats{
   border: 4px solid var(--fg-primary);
-  height: 400px;
+  height: 560px;
   input{
     position: absolute;
 
@@ -314,7 +345,11 @@ export default {
   }
 
   span{
+    display: block;
+    width: 10px;
+    height: 10px;
     cursor: pointer;
+    border-radius: 50%;
   }
 
   span:nth-of-type(1){
@@ -417,7 +452,135 @@ export default {
   }
 }
 
+#background {
+  height: 400px;
 
+  textarea {
+    text-transform: none;
+    position: absolute;
+    top: 878px;
+    left: 50px;
+    border: 0px;
+    height: 310px;
+    width: 275px;
+    text-align: left;
+    font-family: "Cuprum", sans-serif;
+  }
+}
+
+#crafting {
+  textarea {
+    position: absolute;
+    top: 1245px;
+    left: 70px;
+    text-transform: none;
+    border: 0px;
+    height: 280px;
+    width: 260px;
+    text-align: left;
+    font-family: "Cuprum", sans-serif;
+  }
+  input:nth-of-type(1){
+    position: absolute;
+    top: 1530px;
+    left: 29px;
+  }
+  input:nth-of-type(2){
+    position: absolute;
+    top: 1528px;
+    left: 276px;
+  }
+}
+
+#portrait {
+  height: 565px;
+  input{
+    position: absolute;
+    top: 815px;
+    left: 447px;
+  }
+}
+
+#advancement{
+  height: 230px;
+
+  span{
+    display: block;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+
+  span:nth-of-type(1){
+    position: absolute;
+    padding: 20px;
+    top: 1388px;
+    left: 387px;
+  }
+  
+  span:nth-of-type(2){
+    position: absolute;
+    padding: 20px;
+    top: 1461px;
+    left: 407px;
+  }
+  
+  span:nth-of-type(3){
+    position: absolute;
+    padding: 20px;
+    top: 1532px;
+    left: 503px;
+  }
+  
+  span:nth-of-type(4){
+    position: absolute;
+    padding: 20px;
+    top: 1461px;
+    left: 608px;
+  }
+  
+  span:nth-of-type(5){
+    position: absolute;
+    padding: 20px;
+    top: 1388px;
+    left: 621px;
+  }
+
+  span:hover{
+    background-color: rgba(255, 255, 255, .45);
+    box-shadow: 0 0 20px 15px rgba(255, 255, 255, .45);
+  }
+
+}
+
+#notes {
+  textarea {
+    position: absolute;
+    top: 900px;
+    left: 720px;
+    text-transform: none;
+    border: 0px;
+    height: 370px;
+    width: 260px;
+    text-align: left;
+    font-family: "Cuprum", sans-serif;
+  }
+}
+
+#followers {
+  textarea {
+    position: absolute;
+    top: 1320px;
+    left: 720px;
+    text-transform: none;
+    border: 0px;
+    height: 240px;
+    width: 260px;
+    text-align: left;
+    font-family: "Cuprum", sans-serif;
+  }
+}
 
 
 // 

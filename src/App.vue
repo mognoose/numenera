@@ -26,7 +26,8 @@ body {
 }
 
 #app {
-  overflow: hidden;
+  overflow-y: hidden;
+  overflow-x: scroll;
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -36,10 +37,10 @@ body {
   text-align: center;
   color: $fg-primary;
   background-image: url("~@/assets/sheet.png");
-  background-size: auto 100%;
+  background-size: 100% auto;
   background-position: top;
   background-repeat: no-repeat;
-  height: 816px;
+  height: 1632px;
   width: 1056px;
 }
 .container{
@@ -131,5 +132,18 @@ th {
 td {
   border-bottom: 1px solid $fg-secondary;
   padding: 0.25em 1em;
+}
+
+::-webkit-scrollbar-track {
+  background: whitesmoke;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: $fg-primary; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $fg-secondary; 
 }
 </style>
