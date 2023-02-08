@@ -9,7 +9,7 @@
             <textarea :value="character?.specialAbilities" @input="event => text = updateCharacter('specialAbilities', event.target.value)" />
         </div>
         <div class="inner-section" id="cyphers">
-            <input :value="character?.cypherlimit" @input="event => text = updateCharacter('cypherlimit', event.target.value)">
+            <input :value="character?.cypherlimit" @input="event => text = updateCharacter('cypherlimit', event.target.value)" @wheel.prevent="event => text = changePoint('cypherlimit', event.target.value, event.deltaY)">
             <textarea :value="character?.cyphers" @input="event => text = updateCharacter('cyphers', event.target.value)" />
         </div>
                     
@@ -19,8 +19,8 @@
                     
         <div class="inner-section" id="crafting">
             <textarea :value="character?.crafting" @input="event => text = updateCharacter('crafting', event.target.value)" />
-            <input class="round-input" :value="character?.materials" @input="event => text = updateCharacter('materials', event.target.value)">
-            <input class="round-input" :value="character?.parts" @input="event => text = updateCharacter('parts', event.target.value)">
+            <input class="round-input" :value="character?.materials" @input="event => text = updateCharacter('materials', event.target.value)" @wheel.prevent="event => text = changePoint('materials', event.target.value, event.deltaY)">
+            <input class="round-input" :value="character?.parts" @input="event => text = updateCharacter('parts', event.target.value)" @wheel.prevent="event => text = changePoint('parts', event.target.value, event.deltaY)">
         </div>
       </div>
       <div class="section">
@@ -31,24 +31,24 @@
             <input :value="character?.focus" @input="event => text = updateCharacter('focus', event.target.value)">
         </div>
         <div class="inner-section" id="stats">
-            <input :value="character?.might" @input="event => text = updateCharacter('might', event.target.value)">
-            <input class="round-input" :value="character?.mightpool" @input="event => text = updateCharacter('mightpool', event.target.value)">
-            <input class="round-input" :value="character?.mightedge" @input="event => text = updateCharacter('mightedge', event.target.value)">
-            <input :value="character?.speed" @input="event => text = updateCharacter('speed', event.target.value)">
-            <input class="round-input" :value="character?.speedpool" @input="event => text = updateCharacter('speedpool', event.target.value)">
-            <input class="round-input" :value="character?.speededge" @input="event => text = updateCharacter('speededge', event.target.value)">
-            <input :value="character?.int" @input="event => text = updateCharacter('int', event.target.value)">
-            <input class="round-input" :value="character?.intpool" @input="event => text = updateCharacter('intpool', event.target.value)">
-            <input class="round-input" :value="character?.intedge" @input="event => text = updateCharacter('intedge', event.target.value)">
+            <input :value="character?.might" @input="event => text = updateCharacter('might', event.target.value)" @wheel.prevent="event => text = changePoint('might', event.target.value, event.deltaY)">
+            <input class="round-input" :value="character?.mightpool" @input="event => text = updateCharacter('mightpool', event.target.value)" @wheel.prevent="event => text = changePoint('mightpool', event.target.value, event.deltaY)">
+            <input class="round-input" :value="character?.mightedge" @input="event => text = updateCharacter('mightedge', event.target.value)" @wheel.prevent="event => text = changePoint('mightedge', event.target.value, event.deltaY)">
+            <input :value="character?.speed" @input="event => text = updateCharacter('speed', event.target.value)" @wheel.prevent="event => text = changePoint('speed', event.target.value, event.deltaY)">
+            <input class="round-input" :value="character?.speedpool" @input="event => text = updateCharacter('speedpool', event.target.value)" @wheel.prevent="event => text = changePoint('speedpool', event.target.value, event.deltaY)">
+            <input class="round-input" :value="character?.speededge" @input="event => text = updateCharacter('speededge', event.target.value)" @wheel.prevent="event => text = changePoint('speededge', event.target.value, event.deltaY)">
+            <input :value="character?.int" @input="event => text = updateCharacter('int', event.target.value)" @wheel.prevent="event => text = changePoint('int', event.target.value, event.deltaY)">
+            <input class="round-input" :value="character?.intpool" @input="event => text = updateCharacter('intpool', event.target.value)" @wheel.prevent="event => text = changePoint('intpool', event.target.value, event.deltaY)">
+            <input class="round-input" :value="character?.intedge" @input="event => text = updateCharacter('intedge', event.target.value)" @wheel.prevent="event => text = changePoint('intedge', event.target.value, event.deltaY)">
 
-            <input class="round-input" :value="character?.armorcost" @input="event => text = updateCharacter('armorcost', event.target.value)">
-            <input :value="character?.armor" @input="event => text = updateCharacter('armor', event.target.value)">
+            <input class="round-input" :value="character?.armorcost" @input="event => text = updateCharacter('armorcost', event.target.value)" @wheel.prevent="event => text = changePoint('armorcost', event.target.value, event.deltaY)">
+            <input :value="character?.armor" @input="event => text = updateCharacter('armor', event.target.value)" @wheel.prevent="event => text = changePoint('armor', event.target.value, event.deltaY)">
 
-            <input :value="character?.tier" @input="event => text = updateCharacter('tier', event.target.value)">
-            <input :value="character?.effort" @input="event => text = updateCharacter('effort', event.target.value)">
-            <input :value="character?.xp" @input="event => text = updateCharacter('xp', event.target.value)">
+            <input :value="character?.tier" @input="event => text = updateCharacter('tier', event.target.value)" @wheel.prevent="event => text = changePoint('tier', event.target.value, event.deltaY)">
+            <input :value="character?.effort" @input="event => text = updateCharacter('effort', event.target.value)" @wheel.prevent="event => text = changePoint('effort', event.target.value, event.deltaY)">
+            <input :value="character?.xp" @input="event => text = updateCharacter('xp', event.target.value)" @wheel.prevent="event => text = changePoint('xp', event.target.value, event.deltaY)">
 
-            <input class="round-input" :value="character?.recovery" @input="event => text = updateCharacter('recovery', event.target.value)">
+            <input class="round-input" :value="character?.recovery" @input="event => text = updateCharacter('recovery', event.target.value)" @wheel.prevent="event => text = changePoint('recovery', event.target.value, event.deltaY)">
 
             <span @click="updateCharacter('oneaction', !character.oneaction)">{{ character.oneaction ? '✔' : ' ' }}</span>
             <span @click="updateCharacter('tenmins', !character.tenmins)">{{ character.tenmins ? '✔' : ' ' }}</span>
@@ -82,7 +82,7 @@
             </div>
           <div class="inner-section" id="equipment">
             <textarea :value="character?.equipment" @input="event => text = updateCharacter('equipment', event.target.value)" />
-            <input class="round-input" :value="character?.shins" @input="event => text = updateCharacter('shins', event.target.value)">
+            <input class="round-input" :value="character?.shins" @input="event => text = updateCharacter('shins', event.target.value)" @wheel.prevent="event => text = changePoint('shins', event.target.value, event.deltaY)">
         </div>
         <div class="inner-section" id="attacks">
             <textarea :value="character?.attacks" @input="event => text = updateCharacter('attacks', event.target.value)" />
@@ -117,6 +117,7 @@ export default {
         backgroundPosition: `center`,
         backgroundAttachment: "fixed",
       },
+      delayed: false,
     };
   },
   mounted() {
@@ -132,8 +133,15 @@ export default {
       const payload = {...this.character};
       payload[slot] = value;
       const res = updateCharacter(slot, value, this.$route.params.player);
-      console.log(res);
     },
+    changePoint(stat, value, event){
+      if(this.delayed) return;
+      if(!value) value = 0;
+      this.delayed = true;
+      const newValue = parseInt(value) + (event < 0 ? 1 : -1);
+      this.updateCharacter(stat, newValue);
+      setTimeout(()=>this.delayed = false, 250);
+    }
   },
 };
 </script>
