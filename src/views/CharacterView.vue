@@ -1,100 +1,31 @@
 <template>
-  <div class="container" :style="cssProps">
-    <!-- <h1 style="font-size: 5px; border: 1px solid maroon;">
-      {{ `${character?.name} is a ${character?.descriptor} ${character?.type} who ${character?.focus}` }}
-    </h1> -->
+  <div class="container">
     <div class="home">
-      <div class="section">
-        <div class="inner-section" id="specialAbilities">
-            <textarea :value="character?.specialAbilities" @input="event => text = updateCharacter('specialAbilities', event.target.value)" />
-        </div>
-        <div class="inner-section" id="cyphers">
-            <input :value="character?.cypherlimit" @input="event => text = updateCharacter('cypherlimit', event.target.value)" @wheel.prevent="event => text = changePoint('cypherlimit', event.target.value, event.deltaY)">
-            <textarea :value="character?.cyphers" @input="event => text = updateCharacter('cyphers', event.target.value)" />
-        </div>
-                    
-        <div class="inner-section" id="background">
-            <textarea :value="character?.background" @input="event => text = updateCharacter('background', event.target.value)" />
-        </div>
-                    
-        <div class="inner-section" id="crafting">
-            <textarea :value="character?.crafting" @input="event => text = updateCharacter('crafting', event.target.value)" />
-            <input class="round-input" :value="character?.materials" @input="event => text = updateCharacter('materials', event.target.value)" @wheel.prevent="event => text = changePoint('materials', event.target.value, event.deltaY)">
-            <input class="round-input" :value="character?.parts" @input="event => text = updateCharacter('parts', event.target.value)" @wheel.prevent="event => text = changePoint('parts', event.target.value, event.deltaY)">
+      <div class="section" v-for="section, fieldname in fields" :key="fieldname">
+        <div class="innersection" :id="fieldname" >
+          <div v-for="field, i in section" :key="i">
+            <input
+              v-if="field.type === 'input'"
+              :value="character?.[field.value]"
+              @input="event => text = updateCharacter(field.value, event.target.value)"
+              @wheel.prevent="event => text = changePoint(field.scrollable, field.value, event.target.value, event.deltaY)"
+              :class="field.circle ? 'round-input' : ''"
+            />
+            <textarea
+              v-if="field.type === 'textarea'"
+              :value="character?.[field.value]"
+              @click="checkMark(field.value, field.type)"
+              @input="event => text = updateCharacter(field.value, event.target.value)"
+            />
+            <span
+              v-if="field.type === 'span'"
+              :value="character?.[field.value]"
+              @click="checkMark(field.value, field.type)"
+              v-html="field.type === 'span' ? (character?.[field.value] ? '✔' : ' ') : ''"
+            />
+          </div>
         </div>
       </div>
-      <div class="section">
-        <div class="inner-section" id="basic">
-            <input :value="character?.name" @input="event => text = updateCharacter('name', event.target.value)">
-            <input :value="character?.descriptor" @input="event => text = updateCharacter('descriptor', event.target.value)">
-            <input :value="character?.type" @input="event => text = updateCharacter('type', event.target.value)">
-            <input :value="character?.focus" @input="event => text = updateCharacter('focus', event.target.value)">
-        </div>
-        <div class="inner-section" id="stats">
-            <input :value="character?.might" @input="event => text = updateCharacter('might', event.target.value)" @wheel.prevent="event => text = changePoint('might', event.target.value, event.deltaY)">
-            <input class="round-input" :value="character?.mightpool" @input="event => text = updateCharacter('mightpool', event.target.value)" @wheel.prevent="event => text = changePoint('mightpool', event.target.value, event.deltaY)">
-            <input class="round-input" :value="character?.mightedge" @input="event => text = updateCharacter('mightedge', event.target.value)" @wheel.prevent="event => text = changePoint('mightedge', event.target.value, event.deltaY)">
-            <input :value="character?.speed" @input="event => text = updateCharacter('speed', event.target.value)" @wheel.prevent="event => text = changePoint('speed', event.target.value, event.deltaY)">
-            <input class="round-input" :value="character?.speedpool" @input="event => text = updateCharacter('speedpool', event.target.value)" @wheel.prevent="event => text = changePoint('speedpool', event.target.value, event.deltaY)">
-            <input class="round-input" :value="character?.speededge" @input="event => text = updateCharacter('speededge', event.target.value)" @wheel.prevent="event => text = changePoint('speededge', event.target.value, event.deltaY)">
-            <input :value="character?.int" @input="event => text = updateCharacter('int', event.target.value)" @wheel.prevent="event => text = changePoint('int', event.target.value, event.deltaY)">
-            <input class="round-input" :value="character?.intpool" @input="event => text = updateCharacter('intpool', event.target.value)" @wheel.prevent="event => text = changePoint('intpool', event.target.value, event.deltaY)">
-            <input class="round-input" :value="character?.intedge" @input="event => text = updateCharacter('intedge', event.target.value)" @wheel.prevent="event => text = changePoint('intedge', event.target.value, event.deltaY)">
-
-            <input class="round-input" :value="character?.armorcost" @input="event => text = updateCharacter('armorcost', event.target.value)" @wheel.prevent="event => text = changePoint('armorcost', event.target.value, event.deltaY)">
-            <input :value="character?.armor" @input="event => text = updateCharacter('armor', event.target.value)" @wheel.prevent="event => text = changePoint('armor', event.target.value, event.deltaY)">
-
-            <input :value="character?.tier" @input="event => text = updateCharacter('tier', event.target.value)" @wheel.prevent="event => text = changePoint('tier', event.target.value, event.deltaY)">
-            <input :value="character?.effort" @input="event => text = updateCharacter('effort', event.target.value)" @wheel.prevent="event => text = changePoint('effort', event.target.value, event.deltaY)">
-            <input :value="character?.xp" @input="event => text = updateCharacter('xp', event.target.value)" @wheel.prevent="event => text = changePoint('xp', event.target.value, event.deltaY)">
-
-            <input class="round-input" :value="character?.recovery" @input="event => text = updateCharacter('recovery', event.target.value)" @wheel.prevent="event => text = changePoint('recovery', event.target.value, event.deltaY)">
-
-            <span @click="updateCharacter('oneaction', !character.oneaction)">{{ character.oneaction ? '✔' : ' ' }}</span>
-            <span @click="updateCharacter('tenmins', !character.tenmins)">{{ character.tenmins ? '✔' : ' ' }}</span>
-
-            <span @click="updateCharacter('onehour', !character.onehour)">{{ character.onehour ? '✔' : ' ' }}</span>
-            <span @click="updateCharacter('tenhours', !character.tenhours)">{{ character.tenhours ? '✔' : ' ' }}</span>
-
-            <span @click="updateCharacter('impaired', !character.impaired)">{{ character.impaired ? '✔' : ' ' }}</span>
-            <span @click="updateCharacter('debilitated', !character.debilitated)">{{ character.debilitated ? '✔' : ' ' }}</span>
-          
-          </div>
-            
-          <div class="inner-section" id="portrait">
-            <input :value="character?.name" @input="event => text = updateCharacter('name', event.target.value)">
-          </div>
-            
-          <div class="inner-section" id="advancement">
-            <span @click="updateCharacter('increaseCapabilities', !character.increaseCapabilities)">{{ character.increaseCapabilities ? '✔' : ' ' }}</span>
-            <span @click="updateCharacter('extraEffort', !character.extraEffort)">{{ character.extraEffort ? '✔' : ' ' }}</span>
-            
-            <span @click="updateCharacter('moveTowardPerfection', !character.moveTowardPerfection)">{{ character.moveTowardPerfection ? '✔' : ' ' }}</span>
-
-            <span @click="updateCharacter('skillTraining', !character.skillTraining)">{{ character.skillTraining ? '✔' : ' ' }}</span>
-            <span @click="updateCharacter('other', !character.other)">{{ character.other ? '✔' : ' ' }}</span>
-
-          </div>
-        </div>
-        <div class="section">
-          <div class="inner-section" id="skills">
-            <textarea :value="character?.skills" @input="event => text = updateCharacter('skills', event.target.value)" />
-            </div>
-          <div class="inner-section" id="equipment">
-            <textarea :value="character?.equipment" @input="event => text = updateCharacter('equipment', event.target.value)" />
-            <input class="round-input" :value="character?.shins" @input="event => text = updateCharacter('shins', event.target.value)" @wheel.prevent="event => text = changePoint('shins', event.target.value, event.deltaY)">
-        </div>
-        <div class="inner-section" id="attacks">
-            <textarea :value="character?.attacks" @input="event => text = updateCharacter('attacks', event.target.value)" />
-        </div>
-        <div class="inner-section" id="notes">
-            <textarea :value="character?.attacks" @input="event => text = updateCharacter('attacks', event.target.value)" />
-        </div>
-        <div class="inner-section" id="followers">
-            <textarea :value="character?.followers" @input="event => text = updateCharacter('followers', event.target.value)" />
-        </div>
-      </div>
-
     </div>
   </div>
 </template>
@@ -111,11 +42,83 @@ export default {
   data() {
     return {
       character: {},
-      cssProps: {
-        minHeight: "100vh",
-        backgroundSize: `cover`,
-        backgroundPosition: `center`,
-        backgroundAttachment: "fixed",
+      fields: {
+        specialAbilities: [
+          {type: 'textarea', value: 'specialAbilities' },
+        ],
+        cyphers: [
+          {type: 'input', value: 'cypherlimit', scrollable: true },
+          {type: 'textarea', value: 'cyphers' },
+        ],
+        background: [
+          {type: 'textarea', value: 'background' },
+        ],
+        crafting: [
+          {type: 'textarea', value: 'crafting' },
+          {type: 'input', value: 'materials', scrollable: true, circle: true },
+          {type: 'input', value: 'parts', scrollable: true, circle: true },
+        ],
+        basic: [
+          {type: 'input', value: 'name', scrollable: true },
+          {type: 'input', value: 'descriptor', scrollable: true },
+          {type: 'input', value: 'type', scrollable: true },
+          {type: 'input', value: 'focus', scrollable: true },
+        ],
+        stats: [
+          {type: 'input', value: 'might', scrollable: true },
+          {type: 'input', value: 'mightpool', scrollable: true, circle: true },
+          {type: 'input', value: 'mightede', scrollable: true, circle: true },
+          
+          {type: 'input', value: 'speed', scrollable: true },
+          {type: 'input', value: 'speedpool', scrollable: true, circle: true },
+          {type: 'input', value: 'speededge', scrollable: true, circle: true },
+          
+          {type: 'input', value: 'int', scrollable: true },
+          {type: 'input', value: 'intpool', scrollable: true, circle: true },
+          {type: 'input', value: 'intedge', scrollable: true, circle: true },
+          
+          {type: 'input', value: 'armorcost', scrollable: true, circle: true },
+          {type: 'input', value: 'armor', scrollable: true },
+          
+          {type: 'input', value: 'tier', scrollable: true },
+          {type: 'input', value: 'effort', scrollable: true },
+          {type: 'input', value: 'xp', scrollable: true },
+
+          {type: 'input', value: 'recovery', scrollable: true, circle: true },
+          
+          {type: 'span', value: 'oneaction' },
+          {type: 'span', value: 'tenmins' },
+          {type: 'span', value: 'onehour' },
+          {type: 'span', value: 'tenhours' },
+          {type: 'span', value: 'debilitated' },
+          {type: 'span', value: 'impaired' },
+        ],
+        skills: [
+          {type: 'textarea', value: 'skills' },
+        ],
+        equipment: [
+          {type: 'textarea', value: 'equipment' },
+          {type: 'input', value: 'shins', scrollable: true, circle: true },
+        ],
+        attacks: [
+          {type: 'textarea', value: 'attacks' },
+        ],
+        portrait: [
+          {type: 'input', value: 'name' },
+        ],
+        advancement: [
+          {type: 'span', value: 'increaseCApabilities' },
+          {type: 'span', value: 'extraEffort' },
+          {type: 'span', value: 'moveTowardPerfection' },
+          {type: 'span', value: 'skillTraining' },
+          {type: 'span', value: 'other' },
+        ],
+        notes: [
+          {type: 'textarea', value: 'notes' },
+        ],
+        followers: [
+          {type: 'textarea', value: 'followers' },
+        ],
       },
       delayed: false,
     };
@@ -134,13 +137,19 @@ export default {
       payload[slot] = value;
       const res = updateCharacter(slot, value, this.$route.params.player);
     },
-    changePoint(stat, value, event){
+    changePoint(scrollable, stat, value, event){
+      if(!scrollable) return;
       if(this.delayed) return;
       if(!value) value = 0;
       this.delayed = true;
       const newValue = parseInt(value) + (event < 0 ? 1 : -1);
       this.updateCharacter(stat, newValue);
       setTimeout(()=>this.delayed = false, 250);
+    },
+    checkMark(slot, type){
+      if(type !== 'span') return
+      const newValue = !this.character[slot];
+      this.updateCharacter(slot, newValue);
     }
   },
 };
@@ -231,28 +240,28 @@ export default {
   input{
     font-weight: bold;
   }
-  input:first-of-type{
+  div:first-of-type input{
     box-sizing: border-box;
     position: absolute;
     top: 57px;
     left: 410px;
     width: 200px;
   }
-  input:nth-of-type(2){
+  div:nth-of-type(2) input{
     position: absolute;
     top: 136px;
     left: 405px;
     width: 100px;
     text-align: right;
   }
-  input:nth-of-type(3){
+  div:nth-of-type(3) input{
     position: absolute;
     top: 136px;
     left: 510px;
     width: 100px;
     text-align: left;
   }
-  input:nth-of-type(4){
+  div:nth-of-type(4) input{
     position: absolute;
     top: 200px;
     left: 410px;
@@ -264,82 +273,80 @@ export default {
 
 
 #stats{
-  border: 4px solid var(--fg-primary);
   height: 560px;
   input{
     position: absolute;
 
   }
 
-  input:first-of-type{
+  div:first-of-type input{
     top: 241px;
     left: 447px;
     font-size: 2em;
     width: 2em;
 
   }
-  input:nth-of-type(2){
+  div:nth-of-type(2) input{
     top: 235px;
     left: 383px;
-    
   }
-  input:nth-of-type(3){
+  div:nth-of-type(3) input{
     top: 295px;
     left: 382px;
   }
-  input:nth-of-type(4){
+  div:nth-of-type(4) input{
     top: 368px;
     left: 447px;
     font-size: 2em;
     width: 2em;
   }
-  input:nth-of-type(5){
+  div:nth-of-type(5) input{
     top: 360px;
     left: 382px;
   }
-  input:nth-of-type(6){
+  div:nth-of-type(6) input{
     top: 420px;
     left: 382px;
   }
-    input:nth-of-type(7){
+    div:nth-of-type(7) input{
     top: 495px;
     left: 445px;
     font-size: 2em;
     width: 2em;
   }
-  input:nth-of-type(8){
+  div:nth-of-type(8) input{
     top: 487px;
     left: 382px;
   }
-  input:nth-of-type(9){
+  div:nth-of-type(9) input{
     top: 548px;
     left: 382px;
   }
-  input:nth-of-type(10){
+  div:nth-of-type(10) input{
     top: 391px;
     left: 580px;
   }
-  input:nth-of-type(11){
+  div:nth-of-type(11) input{
     top: 393px;
     left: 642px;
     width: 25px;
     font-size: 1.2em;
   }
-  input:nth-of-type(12){
+  div:nth-of-type(12) input{
     width: 50px;
     top: 640px;
     left: 393px;
     font-size: 1.2em;
     padding-bottom: 16px;
   }
-  input:nth-of-type(13){
+  div:nth-of-type(13) input{
     width: 50px;
     top: 640px;
     left: 476px;
     font-size: 1.2em;
     padding-bottom: 16px;
   }
-  input:nth-of-type(14){
+  div:nth-of-type(14) input{
     width: 50px;
     top: 640px;
     left: 558px;
@@ -347,7 +354,7 @@ export default {
     padding-bottom: 16px;
   }
 
-  input:nth-of-type(15){
+  div:nth-of-type(15) input{
     top: 732px;
     left: 489px;
   }
@@ -360,35 +367,35 @@ export default {
     border-radius: 50%;
   }
 
-  span:nth-of-type(1){
+  div:nth-of-type(16) span{
     position: absolute;
     padding: 20px;
     top: 722px;
     left: 388px;
   }
 
-  span:nth-of-type(2){
+  div:nth-of-type(17) span{
     position: absolute;
     padding: 20px;
     top: 739px;
     left: 443px;
   }
 
-  span:nth-of-type(3){
+  div:nth-of-type(18) span{
     position: absolute;
     padding: 20px;
     top: 737px;
     left: 565px;
   }
   
-  span:nth-of-type(4){
+  div:nth-of-type(19) span{
     position: absolute;
     padding: 20px;
     top: 710px;
     left: 631px;
   }
 
-  span:nth-of-type(5){
+  div:nth-of-type(20) span{
     position: absolute;
     padding: 13px 30px;
     top: 584px;
@@ -396,7 +403,7 @@ export default {
 
   }
 
-  span:nth-of-type(6){
+  div:nth-of-type(21) span{
     position: absolute;
     padding: 13px 30px;
     top: 536px;
@@ -477,7 +484,7 @@ export default {
 }
 
 #crafting {
-  textarea {
+  div:nth-of-type(1) textarea{
     position: absolute;
     top: 1245px;
     left: 70px;
@@ -488,12 +495,12 @@ export default {
     text-align: left;
     font-family: "Cuprum", sans-serif;
   }
-  input:nth-of-type(1){
+  div:nth-of-type(2) input{
     position: absolute;
     top: 1530px;
     left: 29px;
   }
-  input:nth-of-type(2){
+  div:nth-of-type(3) input{
     position: absolute;
     top: 1528px;
     left: 276px;
@@ -520,35 +527,35 @@ export default {
     border-radius: 50%;
   }
 
-  span:nth-of-type(1){
+  div:nth-of-type(1) span{
     position: absolute;
     padding: 20px;
     top: 1388px;
     left: 387px;
   }
   
-  span:nth-of-type(2){
+  div:nth-of-type(2) span{
     position: absolute;
     padding: 20px;
     top: 1461px;
     left: 407px;
   }
   
-  span:nth-of-type(3){
+  div:nth-of-type(3) span{
     position: absolute;
     padding: 20px;
     top: 1532px;
     left: 503px;
   }
   
-  span:nth-of-type(4){
+  div:nth-of-type(4) span{
     position: absolute;
     padding: 20px;
     top: 1461px;
     left: 608px;
   }
   
-  span:nth-of-type(5){
+  div:nth-of-type(5) span{
     position: absolute;
     padding: 20px;
     top: 1388px;
@@ -592,7 +599,6 @@ export default {
 
 textarea:hover {
   box-shadow: inset 0 0 30px rgba(120, 23, 90, 0.15);
-
 }
 
 
