@@ -1,13 +1,21 @@
 <template>
-  <div class="container blur-bg" :style="cssProps">
+  <div class="container blur-bg">
     <h1>
       {{ `${campaign.title} by ${campaign.by}` }}
     </h1>
     <div class="home">
       <div class="section">
         <h2>Story</h2>
-        <div class="inner-section" contenteditable @input="onSave">
-          {{campaign.story}}
+        <div id="story" class="inner-section" >
+          <div
+            id="story-text"
+            :contenteditable="readMore"
+            @input="onSave"
+            :style="readMore ? 'height: auto' : `height: 90px`"
+          >
+            {{campaign.story}}
+          </div>
+          <span id="read-more" @click="readMore = !readMore">{{readMore ? 'Show less' : 'Read more'}}</span>
         </div>
       </div>
       <div class="section">
@@ -35,12 +43,7 @@ export default {
     return {
       campaign: [],
       chars: [],
-      cssProps: {
-        minHeight: "100vh",
-        backgroundSize: `cover`,
-        backgroundPosition: `center`,
-        backgroundAttachment: "fixed",
-      },
+      readMore: false,
     };
   },
   async mounted() {
@@ -144,5 +147,27 @@ export default {
 
 .enchant-icon {
   width: 60px;
+}
+
+#story {
+  white-space: break-spaces;
+  overflow: clip;
+  
+  #story-text {
+    box-sizing: border-box;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+
+  #read-more {
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    background: rgba(255, 255, 255, .0);
+    padding: .5rem 2rem;
+    cursor: pointer;
+  }
 }
 </style>
