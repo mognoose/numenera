@@ -11,6 +11,7 @@ const db = firebaseApp.firestore();
 
 const campaign = db.collection('campaign');
 const players = db.collection('players');
+const rolls = db.collection('rolls');
 
 export const useLoadCampaigns = async () => {
     const snapshot = await campaign.get()
@@ -64,5 +65,25 @@ export const updateCharacter = async (slot, value, player) => {
     const payload = {}
     payload[slot] = value
     const res = await players.doc(player).update(payload)
+    return res
+}
+
+export const addRoll = async (payload) => {
+    const res = await rolls.add(payload);
+    console.log(res);
+    return res
+}
+
+export const useLoadRolls = (id) => {
+    // let res = ref();
+    let res = [];
+    const close = rolls.where("campaign", "==", id)
+        .onSnapshot((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                res.push(doc.data().message);
+            });
+            console.log("Current rolls: ", res.join(", "));
+        });
+    onUnmounted(close);
     return res
 }

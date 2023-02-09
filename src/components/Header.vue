@@ -32,13 +32,14 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { addRoll } from "@/firebase";
 
 export default {
   name: "Header",
   props: {
-    small: {
-      type: Boolean,
-      default: false,
+    char: {
+      type: String,
+      default: 'unknown',
     },
   },
   data() {
@@ -70,6 +71,16 @@ export default {
       setTimeout(() => {
         this.roll = Math.floor(Math.random() * (this.dice - 1 + 1)) + 1;
         this.rolling = false
+        const date = new Date(Date.now());
+        const payload = {
+          character: this.char,
+          result: this.roll,
+          dice: this.dice,
+          message: `${this.char} rolled ${this.roll} (D${this.dice})`,
+          campaign: this.$route.params.id,
+          createdAt: date.toISOString(),
+        }
+        addRoll(payload)
       }, 1500)
     }
   },

@@ -27,13 +27,18 @@
         </div>
       </div>
     </div>
-    <Header />
+    <Header :char="character?.name" />
+    <div v-if="debug" class="debug">
+      <pre>
+        {{ rollmessages }}
+      </pre>
+    </div>
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
-import { useLoadCharacterByCode, updateCharacter } from "@/firebase";
+import { useLoadCharacterByCode, updateCharacter, useLoadRolls } from "@/firebase";
 
 export default {
   name: "CharacterView",
@@ -42,6 +47,8 @@ export default {
   },
   data() {
     return {
+      debug: false,
+      rollmessages: [],
       character: {},
       fields: {
         specialAbilities: [
@@ -124,13 +131,14 @@ export default {
       delayed: false,
     };
   },
-  mounted() {
-    this.getCharSheet();
+  async mounted() {
+    this.getData();
   },
-
+  
   
   methods: {
-    async getCharSheet() {
+    async getData() {
+      this.rollmessages = await useLoadRolls(this.$route.params.id);
       this.character = await useLoadCharacterByCode(this.$route.params.player);
     },
     updateCharacter(slot, value){
@@ -157,6 +165,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.debug {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border: 4px solid maroon;
+  background: rgba(55, 55, 55, .95);
+  color: lime;
+  height: 500px;
+  width: 300px;
+}
 .container {
   box-sizing: border-box;
   max-width: 1056px;
