@@ -29,8 +29,8 @@
           <h2>+ Add new character</h2>
         </div>
       </div>
-
     </div>
+    <Header />
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="container blur-bg">
-    <Header />
+    <h1>Numenera</h1>
     <div class="home">
       <div class="campaign-list card mt-4">
         <table>
