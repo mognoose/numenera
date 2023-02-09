@@ -11,7 +11,8 @@
             id="story-text"
             :contenteditable="readMore"
             @input="onSave"
-            :style="readMore ? 'height: auto' : `height: 90px`"
+            :style="readMore ? 'height: auto; min-height: 90px' : `height: 90px`"
+            @click="readMore = true"
           >
             {{campaign.story}}
           </div>
@@ -19,10 +20,13 @@
         </div>
       </div>
       <div class="section">
-        <h2>Characters</h2>
+        <h2>Characters ( {{chars.length}} )</h2>
         <div class="inner-section clickable" v-for="char in chars" :key="char.id" @click="onSelect(char.id)">
-          <h2>{{char.name}}</h2>
-          <h3>{{`${char.descriptor} ${char.type} who ${char.focus}`}}</h3>
+          <h2>{{char.name || 'Anonymous'}}</h2>
+          <h3>{{`${char.descriptor || 'An'} ${char.type || 'Unknown'} who ${char.focus || 'is unknown'}`}}</h3>
+        </div>
+        <div class="inner-section clickable" @click="onAddCharacter()">
+          <h2>+ Add new character</h2>
         </div>
       </div>
 
@@ -32,7 +36,7 @@
 
 <script>
 import Header from "@/components/Header.vue";
-import { getCampaignByCode, getCharsByCampaign, updateCampaign } from "@/firebase";
+import { getCampaignByCode, getCharsByCampaign, updateCampaign, addCharacter } from "@/firebase";
 
 export default {
   name: "CampaignView",
@@ -49,6 +53,9 @@ export default {
   async mounted() {
       this.campaign = await getCampaignByCode(this.$route.params.id);
       this.chars = await getCharsByCampaign(this.$route.params.id);
+      if(this.campaign.players !== this.chars.length) {
+        updateCampaign('players', this.chars.length, this.$route.params.id)
+      }
 
   },
   methods: {
@@ -56,9 +63,14 @@ export default {
       this.$router.push(`/${this.$route.params.id}/${player}`);
     },
     async onSave(e) {
-      console.log(e.target.innerText);
       const res = updateCampaign('story', e.target.innerText, this.$route.params.id);
       console.log(res);
+    },
+    async onAddCharacter(){
+      const res = await addCharacter(this.$route.params.id)
+      console.log("addCharacter:", res);
+      const player = res.id;
+      this.$router.push(`/${this.$route.params.id}/${player}`)
     }
   },
 };
@@ -157,6 +169,12 @@ export default {
     box-sizing: border-box;
     margin-bottom: 2rem;
     overflow: hidden;
+    transition: 250ms;
+  }
+
+  #story-text:hover {
+    background-color: rgba(255, 255, 255, .45);
+    box-shadow: 0px 0px 20px 10px rgba(255, 255, 255, .55);
   }
 
   #read-more {
@@ -168,6 +186,12 @@ export default {
     background: rgba(255, 255, 255, .0);
     padding: .5rem 2rem;
     cursor: pointer;
+    transition: 250ms;
+  }
+
+  #read-more:hover {
+    background-color: rgba(255, 255, 255, .45);
+    box-shadow: 0px 0px 20px 10px rgba(255, 255, 255, .55);
   }
 }
 </style>

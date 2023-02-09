@@ -21,7 +21,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: $bg-primary;
+  background-color: #eee;
   font-family: "Cuprum", sans-serif;
 }
 
@@ -37,14 +37,16 @@ body {
   text-align: center;
   color: $fg-primary;
   background-image: url("~@/assets/sheet.png");
-  background-size: 100% auto;
-  background-position: top;
+  background-size: 1056px 1632px;
+  background-position: top left;
   background-repeat: no-repeat;
   height: 1632px;
-  width: 1056px;
+  max-width: 1056px;
+  box-shadow: 10px 0px 50px 0px rgba(84, 140, 146, 0.55);
+
 }
 .container{
-  width: 1056px;
+  max-width: 1056px;
   height: 1632px;
 }
 .blur-bg{

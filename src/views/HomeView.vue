@@ -15,7 +15,7 @@
             <tr v-for="campaign in campaigns" :key="campaign.id" @click="onView(campaign.id)">
               <td>{{ campaign.title }}</td>
               <td>{{ campaign.by }}</td>
-              <td>{{ campaign.players.length }}</td>
+              <td>{{ campaign.players || 0 }}</td>
             </tr>
           </tbody>
         </table>
@@ -72,8 +72,12 @@ export default {
     grid-column: 1;
   }
 }
+tbody tr {
+  background-color: rgba(255, 255, 255, 0);
+  transition: 500ms;
+}
+
 tbody tr:hover {
-  transition: 250ms;
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.5);
 }

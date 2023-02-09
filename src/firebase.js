@@ -29,9 +29,16 @@ export const updateCampaign = async (slot, value, id) => {
     return res
 }
 
+export const addCharacter = async (campaignId) => {
+    const res = await players.add({
+       campaign: campaignId 
+    });
+    return res
+}
+
 export const getCharsByCampaign = async code => {
     let res = []
-    await players.where("campaign", "==", code)
+    await players.where("campaign", "==", code).orderBy('name')
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {

@@ -158,6 +158,8 @@ export default {
 <style lang="scss" scoped>
 .container {
   box-sizing: border-box;
+  max-width: 1056px;
+  min-width: 1056px;
   width: 1056px;
 }
 
@@ -168,6 +170,7 @@ export default {
   padding: 3em 0;
   margin: 0em;
   text-align: left;
+  min-width: 1056px;
   width: 1056px;
 }
 .section{
