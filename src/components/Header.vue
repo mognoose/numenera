@@ -169,8 +169,8 @@ export default {
   box-shadow: 0 0 10px 10px rgba(121, 141, 143, 0.25);
   backdrop-filter: blur(30px);
   transition: 300ms;
-  width: 50vw;
-  height: 50vw;
+  width: 530px;
+  height: 530px;
   margin: 0 auto;
   
   img {
@@ -218,7 +218,7 @@ export default {
       display: block;
       position: relative;
       top: -128px;
-      left: 144px;
+      left: 142px;
       font-size: 3em;
       background: #000;
       border-radius: 75% 75% 0 0;
