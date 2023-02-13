@@ -6,6 +6,7 @@
           <div v-for="field, i in section" :key="i">
             <input
               v-if="field.type === 'input'"
+              :style="`left: ${field.position?.x}px; top: ${field.position?.y}px;`"
               :value="character?.[field.value]"
               @input="event => text = updateCharacter(field.value, event.target.value)"
               @wheel.prevent="event => text = changePoint(field.scrollable, field.value, event.target.value, event.deltaY)"
@@ -13,12 +14,14 @@
             />
             <textarea
               v-if="field.type === 'textarea'"
+              :style="`left: ${field.position?.x}px; top: ${field.position?.y}px;`"
               :value="character?.[field.value]"
               @click="checkMark(field.value, field.type)"
               @input="event => text = updateCharacter(field.value, event.target.value)"
             />
             <span
               v-if="field.type === 'span'"
+              :style="`left: ${field.position?.x}px; top: ${field.position?.y}px;`"
               :value="character?.[field.value]"
               @click="checkMark(field.value, field.type)"
               v-html="field.type === 'span' ? (character?.[field.value] ? '✔' : ' ') : ''"
@@ -44,80 +47,80 @@ export default {
       character: {},
       fields: {
         specialAbilities: [
-          {type: 'textarea', value: 'specialAbilities' },
+          {type: 'textarea', value: 'specialAbilities', position: {x: 50, y: 65} },
         ],
         cyphers: [
-          {type: 'input', value: 'cypherlimit', scrollable: true },
-          {type: 'textarea', value: 'cyphers' },
+          {type: 'input', value: 'cypherlimit', scrollable: true, position: {x: 25, y: 461} },
+          {type: 'textarea', value: 'cyphers', position: {x: 50, y: 530} },
         ],
         background: [
-          {type: 'textarea', value: 'background' },
+          {type: 'textarea', value: 'background', position: {x: 50, y: 878} },
         ],
         crafting: [
-          {type: 'textarea', value: 'crafting' },
-          {type: 'input', value: 'materials', scrollable: true, circle: true },
-          {type: 'input', value: 'parts', scrollable: true, circle: true },
+          {type: 'textarea', value: 'crafting', position: {x: 70, y: 1245} },
+          {type: 'input', value: 'materials', scrollable: true, circle: true, position: {x: 29, y: 1530} },
+          {type: 'input', value: 'parts', scrollable: true, circle: true, position: {x: 276, y: 1528} },
         ],
         basic: [
-          {type: 'input', value: 'name', scrollable: true },
-          {type: 'input', value: 'descriptor', scrollable: true },
-          {type: 'input', value: 'type', scrollable: true },
-          {type: 'input', value: 'focus', scrollable: true },
+          {type: 'input', value: 'name', scrollable: true, position: {x: 410, y: 57 } },
+          {type: 'input', value: 'descriptor', scrollable: true, position: {x: 405, y: 136 } },
+          {type: 'input', value: 'type', scrollable: true, position: {x: 510, y: 136 } },
+          {type: 'input', value: 'focus', scrollable: true, position: {x: 410, y: 200 } },
         ],
         stats: [
-          {type: 'input', value: 'might', scrollable: true },
-          {type: 'input', value: 'mightpool', scrollable: true, circle: true },
-          {type: 'input', value: 'mightede', scrollable: true, circle: true },
+          {type: 'input', value: 'might', scrollable: true, position: {x: 447, y: 241 } },
+          {type: 'input', value: 'mightpool', scrollable: true, circle: true, position: {x: 383, y: 235} },
+          {type: 'input', value: 'mightede', scrollable: true, circle: true, position: {x: 382, y: 295} },
           
-          {type: 'input', value: 'speed', scrollable: true },
-          {type: 'input', value: 'speedpool', scrollable: true, circle: true },
-          {type: 'input', value: 'speededge', scrollable: true, circle: true },
+          {type: 'input', value: 'speed', scrollable: true, position: {x: 447, y: 368} },
+          {type: 'input', value: 'speedpool', scrollable: true, circle: true, position: {x: 382, y: 360} },
+          {type: 'input', value: 'speededge', scrollable: true, circle: true, position: {x: 382, y: 420} },
           
-          {type: 'input', value: 'int', scrollable: true },
-          {type: 'input', value: 'intpool', scrollable: true, circle: true },
-          {type: 'input', value: 'intedge', scrollable: true, circle: true },
+          {type: 'input', value: 'int', scrollable: true, position: {x: 445, y: 495} },
+          {type: 'input', value: 'intpool', scrollable: true, circle: true, position: {x: 382, y: 487} },
+          {type: 'input', value: 'intedge', scrollable: true, circle: true, position: {x: 382, y: 548} },
           
-          {type: 'input', value: 'armorcost', scrollable: true, circle: true },
-          {type: 'input', value: 'armor', scrollable: true },
+          {type: 'input', value: 'armorcost', scrollable: true, circle: true, position: {x: 580, y: 391} },
+          {type: 'input', value: 'armor', scrollable: true, position: {x: 642, y: 393} },
           
-          {type: 'input', value: 'tier', scrollable: true },
-          {type: 'input', value: 'effort', scrollable: true },
-          {type: 'input', value: 'xp', scrollable: true },
+          {type: 'input', value: 'tier', scrollable: true, position: {x: 393, y: 640} },
+          {type: 'input', value: 'effort', scrollable: true, position: {x: 476, y: 640} },
+          {type: 'input', value: 'xp', scrollable: true, position: {x: 558, y: 640} },
 
-          {type: 'input', value: 'recovery', scrollable: true, circle: true },
+          {type: 'input', value: 'recovery', scrollable: true, circle: true, position: {x: 489, y: 732} },
           
-          {type: 'span', value: 'oneaction' },
-          {type: 'span', value: 'tenmins' },
-          {type: 'span', value: 'onehour' },
-          {type: 'span', value: 'tenhours' },
-          {type: 'span', value: 'debilitated' },
-          {type: 'span', value: 'impaired' },
+          {type: 'span', value: 'oneaction', position: {x: 388, y: 722} },
+          {type: 'span', value: 'tenmins', position: {x: 443, y: 739} },
+          {type: 'span', value: 'onehour', position: {x: 565, y: 737} },
+          {type: 'span', value: 'tenhours', position: {x: 631, y: 710} },
+          {type: 'span', value: 'debilitated', position: {x: 619, y: 584} },
+          {type: 'span', value: 'impaired', position: {x: 619, y: 536} },
         ],
         skills: [
-          {type: 'textarea', value: 'skills' },
+          {type: 'textarea', value: 'skills', position: {x: 725, y: 75} },
         ],
         equipment: [
-          {type: 'textarea', value: 'equipment' },
-          {type: 'input', value: 'shins', scrollable: true, circle: true },
+          {type: 'textarea', value: 'equipment', position: {x: 725, y: 385} },
+          {type: 'input', value: 'shins', scrollable: true, circle: true, position: {x: 960, y: 301} },
         ],
         attacks: [
-          {type: 'textarea', value: 'attacks' },
+          {type: 'textarea', value: 'attacks', position: {x: 745, y: 645} },
         ],
         portrait: [
-          {type: 'input', value: 'name' },
+          {type: 'input', value: 'name', position: {x: 447, y: 815} },
         ],
         advancement: [
-          {type: 'span', value: 'increaseCApabilities' },
-          {type: 'span', value: 'extraEffort' },
-          {type: 'span', value: 'moveTowardPerfection' },
-          {type: 'span', value: 'skillTraining' },
-          {type: 'span', value: 'other' },
+          {type: 'span', value: 'increaseCApabilities', position: {x: 387, y: 1388} },
+          {type: 'span', value: 'extraEffort', position: {x: 407, y: 1461} },
+          {type: 'span', value: 'moveTowardPerfection', position: {x: 503, y: 1532} },
+          {type: 'span', value: 'skillTraining', position: {x: 608, y: 1461} },
+          {type: 'span', value: 'other', position: {x: 621, y: 1388} },
         ],
         notes: [
-          {type: 'textarea', value: 'notes' },
+          {type: 'textarea', value: 'notes', position: {x: 720, y: 900} },
         ],
         followers: [
-          {type: 'textarea', value: 'followers' },
+          {type: 'textarea', value: 'followers', position: {x: 720, y: 1320} },
         ],
       },
       delayed: false,
