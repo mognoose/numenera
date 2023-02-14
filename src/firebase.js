@@ -2,6 +2,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { config } from './firebase.config';
+import axios from 'axios';
 
 import {ref, onUnmounted } from 'vue';
 
@@ -40,15 +41,15 @@ export const addCharacter = async (campaignId) => {
 export const getCharsByCampaign = async code => {
     let res = []
     await players.where("campaign", "==", code).orderBy('name')
-    .get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            res.push({id: doc.id, ...doc.data()});
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                res.push({id: doc.id, ...doc.data()});
+            });
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
         });
-    })
-    .catch((error) => {
-        console.log("Error getting documents: ", error);
-    });
     return res;
 }
 
@@ -68,22 +69,22 @@ export const updateCharacter = async (slot, value, player) => {
     return res
 }
 
-export const addRoll = async (payload) => {
-    const res = await rolls.add(payload);
-    console.log(res);
-    return res
-}
+export const getRoll = async (dice) => {
+    try {
+        const data = {
+            name: 'testeri',
+            dice: dice
+        }
 
-export const useLoadRolls = (id) => {
-    // let res = ref();
-    let res = [];
-    const close = rolls.where("campaign", "==", id)
-        .onSnapshot((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                res.push(doc.data().message);
-            });
-            console.log("Current rolls: ", res.join(", "));
-        });
-    onUnmounted(close);
-    return res
+        const config = {
+            headers: {
+              Accept: '*',
+            }
+        }
+        return await axios.post(process.env.VUE_APP_API_URL, data, config)
+
+    } catch (error) {
+        console.error(error);
+        return {data: {dice: dice, result: Math.floor(Math.random() * (dice - 1 + 1)) + 1}};         
+    }
 }

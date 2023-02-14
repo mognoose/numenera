@@ -28,11 +28,6 @@
       </div>
     </div>
     <Header :char="character?.name" />
-    <div v-if="debug" class="debug">
-      <pre>
-        {{ rollmessages }}
-      </pre>
-    </div>
   </div>
 </template>
 
@@ -47,7 +42,6 @@ export default {
   },
   data() {
     return {
-      debug: false,
       rollmessages: [],
       character: {},
       fields: {
@@ -138,7 +132,6 @@ export default {
   
   methods: {
     async getData() {
-      this.rollmessages = await useLoadRolls(this.$route.params.id);
       this.character = await useLoadCharacterByCode(this.$route.params.player);
     },
     updateCharacter(slot, value){

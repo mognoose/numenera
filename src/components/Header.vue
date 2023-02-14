@@ -32,7 +32,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { addRoll } from "@/firebase";
+import { getRoll } from "@/firebase";
 
 export default {
   name: "Header",
@@ -64,24 +64,15 @@ export default {
       this.dice = d
       this.roll = false
     },
-    rollDice(amount) {
+    async rollDice(amount) {
       if (this.rolling) return
       this.rolling = true
-      this.roll = ''
+      this.roll = false
+      const res = await getRoll(20);
+      this.roll = res.data.result
       setTimeout(() => {
-        this.roll = Math.floor(Math.random() * (this.dice - 1 + 1)) + 1;
         this.rolling = false
-        const date = new Date(Date.now());
-        const payload = {
-          character: this.char,
-          result: this.roll,
-          dice: this.dice,
-          message: `${this.char} rolled ${this.roll} (D${this.dice})`,
-          campaign: this.$route.params.id,
-          createdAt: date.toISOString(),
-        }
-        addRoll(payload)
-      }, 1500)
+      }, 1200)
     }
   },
 };
@@ -94,7 +85,7 @@ export default {
   position: absolute;
   top: 10px;
   left: 0;
-  width: 100vw;
+  width: 1056px;
   padding: .5em 2em;
   margin: 0 auto;
 }
@@ -218,7 +209,7 @@ export default {
   }
   .rolling {
     animation-name: rollthedice;
-    animation-duration: 1.5s;
+    animation-duration: 1.25s;
     animation-timing-function: ease-out;
   }
   .dice {
@@ -241,11 +232,11 @@ export default {
 
   @keyframes rollthedice {
     0%   { top: -200%; left: 25%; transform: rotate(-290deg);}
-    20%  { top: 0%; left: -50%; transform: rotate(-180deg);}
-    40%  { top: -100%; left: 25%; transform: rotate(240deg);}
-    60%  { top: 50%; left: -75%; transform: rotate(320deg);}
-    80%  { top: -100%; left: 50%; transform: rotate(-20deg);}
-    80%  { top: -60%; left: -70%; transform: rotate(-45deg);}
+    15%  { top: 0%; left: -50%; transform: rotate(-180deg);}
+    30%  { top: -100%; left: 25%; transform: rotate(240deg);}
+    40%  { top: 50%; left: -25%; transform: rotate(320deg);}
+    60%  { top: -70%; left: 50%; transform: rotate(-20deg);}
+    80%  { top: -60%; left: -70%; transform: rotate(-145deg);}
     100% { top: -80%; left: 0%; transform: rotate(0deg);}
   }
 
