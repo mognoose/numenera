@@ -68,7 +68,7 @@ export default {
       if (this.rolling) return
       this.rolling = true
       this.roll = false
-      const res = await getRoll(20);
+      const res = await getRoll(this.char, 20);
       this.roll = res.data.result
       setTimeout(() => {
         this.rolling = false
