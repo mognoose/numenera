@@ -79,6 +79,7 @@ export const getRoll = async (dice) => {
         const config = {
             headers: {
               Accept: '*',
+              'Content-Type': 'application/json'
             }
         }
         return await axios.post(process.env.VUE_APP_API_URL, data, config)
