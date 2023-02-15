@@ -74,12 +74,12 @@ export const getRoll = async (char, dice, channel) => {
         const data = {
             name: char,
             dice: dice,
-            channel
+            channelid: channel
         }
 
         const config = {
             headers: {
-              Accept: '*',
+              'Accept': '*',
               'Content-Type': 'application/json'
             }
         }
