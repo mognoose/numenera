@@ -69,11 +69,12 @@ export const updateCharacter = async (slot, value, player) => {
     return res
 }
 
-export const getRoll = async (char, dice) => {
+export const getRoll = async (char, dice, channel) => {
     try {
         const data = {
             name: char,
-            dice: dice
+            dice: dice,
+            channel
         }
 
         const config = {

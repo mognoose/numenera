@@ -32,7 +32,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getRoll } from "@/firebase";
+import { getCampaignByCode, getRoll } from "@/firebase";
 
 export default {
   name: "Header",
@@ -68,7 +68,8 @@ export default {
       if (this.rolling) return
       this.rolling = true
       this.roll = false
-      const res = await getRoll(this.char, 20);
+      const campaign = await getCampaignByCode(this.$route.params.id);
+      const res = await getRoll(this.char, 20, campaign.diceChannel);
       this.roll = res.data.result
       setTimeout(() => {
         this.rolling = false

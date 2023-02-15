@@ -33,7 +33,7 @@
 
 <script>
 import Header from "@/components/Header.vue";
-import { useLoadCharacterByCode, updateCharacter, useLoadRolls } from "@/firebase";
+import { useLoadCharacterByCode, updateCharacter } from "@/firebase";
 
 export default {
   name: "CharacterView",
@@ -42,7 +42,6 @@ export default {
   },
   data() {
     return {
-      rollmessages: [],
       character: {},
       fields: {
         specialAbilities: [
