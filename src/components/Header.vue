@@ -6,14 +6,14 @@
         <img src="~@/assets/previous.png" @click="toggleDocked(dockedHeader)" :class="dockedHeader ? 'downwards' : 'upwards'">
       </div>
       <div class="logo-container">
-        <img src="~@/assets/numenera.webp" @click="navigate('home')">
+        <img src="~@/assets/numenera.webp" @click="toggleMenu()">
       </div>
       <div class="dice-container">
         <img src="~@/assets/d20.webp" @click="onSetDice('20')">
       </div>
     </div>
 
-    <div class="dice-modal" v-if="dice">
+    <div class="modal dice-modal" v-if="dice">
       <div class="message">
         <h1>{{ rolling ? `Rolling D${dice}` : roll ? `Rolled ${roll} ( D${dice} )` : `${dice ? 'Click dice to roll D'+dice : 'No dice selected'}`}}</h1>
       </div>
@@ -28,6 +28,22 @@
         <button @click="dice = null">Done</button>
       </div>
     </div>
+
+    <div class="modal menu-modal" v-if="menuOpen">
+      <div class="message">
+        <h1>Main Menu</h1>
+      </div>
+      <div class="menu-content">
+        <ul>
+          <li><button @click="navigate('previous')">Leave to Character selection</button></li>
+          <li><button @click="navigate('home')">Leave to Campaign selection</button></li>
+        </ul>
+      </div>
+      <div class="action">
+        <button @click="menuOpen = false">Cancel</button>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -45,6 +61,7 @@ export default {
   },
   data() {
     return {
+      menuOpen: false,
       dice: null,
       roll: 1,
       rolling: false,
@@ -66,10 +83,16 @@ export default {
     toggleDocked(docked){
       this.setDockedHeader(!docked)
     },
+
+    toggleMenu() {
+      this.menuOpen = !this.menuOpen;
+      if(this.menuOpen) this.dice = null;
+    },
     
     onSetDice(d) {
       this.dice = d
       this.roll = false
+      this.menuOpen = false
     },
 
     async rollDice(amount) {
@@ -194,7 +217,7 @@ export default {
   }
 }
 
-.dice-modal {
+.modal {
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
   grid-template-rows: 1fr 4fr 1fr;
@@ -218,6 +241,20 @@ export default {
   }
   .message {
     grid-column-start: 2;
+  }
+  .menu-content {
+    grid-row-start: 2;
+    grid-column-start: 2;
+
+    ul, ul li {
+      margin:0;
+      padding: 0;
+      text-indent: 0;
+      list-style-type: none;
+    }
+    button{
+      width: 100%;
+    }
   }
 
   .dice-frame {
