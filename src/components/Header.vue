@@ -1,8 +1,9 @@
 <template>
-  <div class="header">
+  <div class="header" :class="{'docked': dockedHeader}">
     <div class="header-content">
       <div class="previous-button-container">
         <img src="~@/assets/previous.png" @click="navigate('previous')">
+        <img src="~@/assets/previous.png" @click="toggleDocked(dockedHeader)" :class="dockedHeader ? 'downwards' : 'upwards'">
       </div>
       <div class="logo-container">
         <img src="~@/assets/numenera.webp" @click="navigate('home')">
@@ -31,7 +32,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import { getCampaignByCode, getRoll } from "@/firebase";
 
 export default {
@@ -50,9 +51,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["showHeader"]),
+    ...mapGetters(["showHeader", "dockedHeader"]),
   },
   methods: {
+    ...mapMutations(['setDockedHeader']),
     navigate(location) {
       if(location === 'previous') {
         if(this.$route.params.player) this.$router.push(`/${this.$route.params.id}`);
@@ -60,10 +62,16 @@ export default {
       }
       if(location === 'home') this.$router.push('/');
     },
+
+    toggleDocked(docked){
+      this.setDockedHeader(!docked)
+    },
+    
     onSetDice(d) {
       this.dice = d
       this.roll = false
     },
+
     async rollDice(amount) {
       if (this.rolling) return
       this.rolling = true
@@ -86,7 +94,8 @@ export default {
   position: absolute;
   top: 10px;
   left: 0;
-  width: 1056px;
+  width: 100vw;
+  max-width: 1056px;
   padding: .5em 2em;
   margin: 0 auto;
 }
@@ -102,9 +111,29 @@ export default {
   background-color: rgba(255, 255, 255, .75);
   backdrop-filter: blur(10px);
   transition: 300ms;
+  box-shadow: 0 0 10px 10px rgba(121, 141, 143, 0.25);
+
 }
 .header:hover .header-content {
   top: 0px;
+}
+
+.docked {
+  padding: 0;
+  .header-content{
+    box-sizing: border-box;
+    width: 100vw;
+    max-width: 1056px;
+    top: -10px;
+    border-radius: 0;
+  }
+  .header-content:hover{
+    top: -10px;
+  }
+}
+
+.docked:hover .header-content {
+  top: -10px;
 }
 .previous-button-container{
   text-align: left;
@@ -117,10 +146,17 @@ export default {
     margin: auto;
     padding: 0;
     height: 32px;
+    margin-right: 1rem;
   }
   img:hover{
     background-color: rgba(117, 212, 222, 0.25);
     box-shadow: 0 0 10px 10px rgba(117, 212, 222, 0.25);
+  }
+  .upwards {
+    transform: rotate(90deg);
+  }
+  .downwards {
+    transform: rotate(-90deg);
   }
 }
 .logo-container{
@@ -248,4 +284,5 @@ export default {
     grid-column-start: 2;
   }
 }
+
 </style>
