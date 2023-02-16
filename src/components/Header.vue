@@ -9,7 +9,17 @@
         <img src="~@/assets/numenera.webp" @click="toggleMenu()">
       </div>
       <div class="dice-container">
-        <img src="~@/assets/d20.webp" @click="onSetDice('20')">
+        <img src="~@/assets/d6.png" @click="onSetDice(6)">
+        <img src="~@/assets/d20.webp" @click="onSetDice(20)">
+        <svg width="32" height="32" @click="onSetDice(100)" style="cursor: pointer">
+          <ellipse
+            cx="16" cy="16"
+            rx="12" ry="12"
+            style="fill:rgb(0,0,0);stroke-width:3;stroke:rgb(0,0,0)"
+          />
+          <text x="16" y="20" text-anchor="middle" fill="#FFF" style="font-size: .65rem;">100</text>
+
+        </svg>
       </div>
     </div>
 
@@ -20,8 +30,22 @@
       <div class="dice-frame" @click="rollDice('1')">
         <div class="dice-window" />
         <div class="dice" :class="{ rolling: rolling }">
-          <img src="~@/assets/d20.webp">
-          <span>{{roll ? roll : '20'}}</span>
+          <svg v-if="dice === 6" width="200" height="200">
+            <rect
+              x="25" y="25"
+              rx="15" ry="15"
+              width="150" height="150"
+              style="fill:rgb(0,0,0);stroke-width:3;stroke:rgb(0,0,0)" />
+          </svg>
+          <svg v-if="dice === 100" width="200" height="200">
+            <rect
+              x="25" y="25"
+              rx="100" ry="100"
+              width="150" height="150"
+              style="fill:rgb(0,0,0);stroke-width:3;stroke:rgb(0,0,0)" />
+          </svg>
+          <img v-if="dice === 20" src="~@/assets/d20.webp">
+          <span>{{roll ? roll : dice}}</span>
         </div>
       </div>
       <div class="action">
@@ -35,8 +59,8 @@
       </div>
       <div class="menu-content">
         <ul>
-          <li><button @click="navigate('previous')">Leave to Character selection</button></li>
-          <li><button @click="navigate('home')">Leave to Campaign selection</button></li>
+          <li v-if="$route.params.player"><button @click="navigate('previous')">Exit Character Sheet</button></li>
+          <li><button @click="navigate('home')">Exit Campaign</button></li>
         </ul>
       </div>
       <div class="action">
@@ -95,12 +119,12 @@ export default {
       this.menuOpen = false
     },
 
-    async rollDice(amount) {
+    async rollDice(type) {
       if (this.rolling) return
       this.rolling = true
       this.roll = false
       const campaign = await getCampaignByCode(this.$route.params.id);
-      const res = await getRoll(this.char, 20, campaign.diceChannel);
+      const res = await getRoll(this.char, this.dice, campaign.diceChannel);
       this.roll = res.data.result
       setTimeout(() => {
         this.rolling = false
@@ -203,15 +227,16 @@ export default {
   text-align: right;
   align-self: center;
   align-items: center;
-  img{
+  img, svg{
     transition: 300ms;
     border-radius: 50%;
     cursor: pointer;
-    margin: auto;
+    margin: 0;
+    margin-left: .5rem;
     padding: 0;
     height: 32px;
   }
-  img:hover{
+  img:hover, svg:hover{
     background-color: rgba(117, 212, 222, 0.25);
     box-shadow: 0 0 10px 10px rgba(117, 212, 222, 0.25);
   }
@@ -294,12 +319,14 @@ export default {
       display: block;
       position: relative;
       top: -128px;
-      left: 142px;
+      left: 144px;
       font-size: 3em;
       background: #000;
-      border-radius: 75% 75% 0 0;
+      border-radius: 85% 85% 0 0;
       height:50px;
       width:55px;
+      color: #FFF;
+      text-shadow: 0 0 5px rgba(255,100,100,1), 0 0 10px rgba(255,0,0,1);
     }
 
   }
