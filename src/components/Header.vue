@@ -2,8 +2,8 @@
   <div class="header" :class="{'docked': dockedHeader}">
     <div class="header-content">
       <div class="previous-button-container">
-        <img src="~@/assets/previous.png" @click="navigate('previous')">
-        <img src="~@/assets/previous.png" @click="toggleDocked(dockedHeader)" :class="dockedHeader ? 'downwards' : 'upwards'">
+        <img src="~@/assets/chevron.png" @click="navigate('previous')">
+        <img src="~@/assets/chevron.png" @click="toggleDocked(dockedHeader)" :class="dockedHeader ? 'downwards' : 'upwards'">
       </div>
       <div class="logo-container">
         <img src="~@/assets/numenera.webp" @click="toggleMenu()">
@@ -142,13 +142,10 @@ export default {
 <style scoped lang="scss">
 .header {
   box-sizing: border-box;
-  position: absolute;
+  position: fixed;
   top: 10px;
-  left: 0;
-  width: 100vw;
-  max-width: 1056px;
-  padding: .5em 2em;
-  margin: 0 auto;
+  padding: .5em 0;
+  text-align: center;
 }
 .header-content{
   display: grid;
@@ -156,6 +153,7 @@ export default {
   grid-template-rows: 1fr;
   position: relative;
   top: -100px;
+  left: 10px;
   border: 1px solid #fff;
   border-radius: 8px;
   padding: 0.5em 2em;
@@ -163,6 +161,9 @@ export default {
   backdrop-filter: blur(10px);
   transition: 300ms;
   box-shadow: 0 0 10px 10px rgba(121, 141, 143, 0.25);
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: 1036px;
 
 }
 .header:hover .header-content {
@@ -171,11 +172,13 @@ export default {
 
 .docked {
   padding: 0;
+
   .header-content{
     box-sizing: border-box;
     width: 100vw;
     max-width: 1056px;
     top: -10px;
+    left: 0px;
     border-radius: 0;
   }
   .header-content:hover{
@@ -247,12 +250,11 @@ export default {
 }
 
 .modal {
+  position: relative;
+  top: 10vh;
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
   grid-template-rows: 1fr 4fr 1fr;
-  border: 1px solid #fff;
-  position: relative;
-  top: 10vh;
   border: 1px solid #fff;
   border-radius: 8px;
   padding: 0.5em 2em;
@@ -262,9 +264,9 @@ export default {
   transition: 300ms;
   width: 530px;
   height: 530px;
-  margin: 0 auto;
   animation-name: modalspawn;
   animation-duration: 250ms;
+  margin: 0 auto;
   
   img {
     grid-row-start: 2;
