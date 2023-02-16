@@ -114,6 +114,10 @@ export default {
     },
     
     onSetDice(d) {
+      if(this.dice === d) {
+        this.dice = null
+        return
+      }
       this.dice = d
       this.roll = false
       this.menuOpen = false
@@ -259,6 +263,8 @@ export default {
   width: 530px;
   height: 530px;
   margin: 0 auto;
+  animation-name: modalspawn;
+  animation-duration: 250ms;
   
   img {
     grid-row-start: 2;
@@ -346,6 +352,17 @@ export default {
 
     grid-row-start: 3;
     grid-column-start: 2;
+  }
+}
+
+@keyframes modalspawn {
+  from {
+    opacity: 0;
+    top: -10vh;
+  }
+  to {
+    opacity: 1;
+    top: 10vh;
   }
 }
 
