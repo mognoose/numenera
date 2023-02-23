@@ -5,7 +5,7 @@
     </h1>
     <div class="home">
       <div class="section">
-        <h2>Story</h2>
+        <h2>Story ( sessions: {{ campaign.sessions }} )</h2>
         <div id="story" class="inner-section" >
           <div
             id="story-text"
@@ -15,6 +15,9 @@
             @click="readMore = true"
           >
             {{campaign.story}}
+          </div>
+          <div class="sessions" v-if="readMore">
+            Sessions: <button @click="onSessionModify(-1)"> - </button> {{ campaign.sessions }} <button @click="onSessionModify(1)"> + </button>
           </div>
           <span id="read-more" @click="readMore = !readMore">{{readMore ? 'Show less' : 'Read more'}}</span>
         </div>
@@ -63,14 +66,17 @@ export default {
       this.$router.push(`/${this.$route.params.id}/${player}`);
     },
     async onSave(e) {
-      const res = updateCampaign('story', e.target.innerText, this.$route.params.id);
-      console.log(res);
+      const res = await updateCampaign('story', e.target.innerText, this.$route.params.id);
     },
     async onAddCharacter(){
       const res = await addCharacter(this.$route.params.id)
       console.log("addCharacter:", res);
       const player = res.id;
       this.$router.push(`/${this.$route.params.id}/${player}`)
+    },
+    async onSessionModify(amount) {
+      this.campaign.sessions = this.campaign.sessions + amount;
+      const res = await updateCampaign('sessions', this.campaign.sessions, this.$route.params.id);
     }
   },
 };
@@ -175,6 +181,10 @@ export default {
   #story-text:hover {
     background-color: rgba(255, 255, 255, .45);
     box-shadow: 0px 0px 20px 10px rgba(255, 255, 255, .55);
+  }
+
+  .sessions {
+    margin-bottom: 2rem;
   }
 
   #read-more {

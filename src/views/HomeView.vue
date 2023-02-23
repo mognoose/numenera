@@ -8,6 +8,7 @@
             <tr>
               <th scope="col">Campaign</th>
               <th scope="col">By</th>
+              <th scope="col">Sessions</th>
               <th scope="col">Players</th>
             </tr>
           </thead>
@@ -15,6 +16,7 @@
             <tr v-for="campaign in campaigns" :key="campaign.id" @click="onView(campaign.id)">
               <td>{{ campaign.title }}</td>
               <td>{{ campaign.by }}</td>
+              <td>{{ campaign.sessions || 0 }}</td>
               <td>{{ campaign.players || 0 }}</td>
             </tr>
           </tbody>
