@@ -10,6 +10,7 @@
           @click="activate($event)"
           :class="inputClasses(field)"
           :style="field.styles"
+          :type="field.scrollable ? 'number' : 'text'"
         />
         <textarea
           v-if="field.type === 'textarea'"
@@ -220,25 +221,13 @@ export default {
     .round-input:hover{
       border: 3px solid rgb(120, 23, 90);
     }
+    .scrollable-input::before {
+      content: "add";
+    }
+  }
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
   }
 }
-
-
-// 
-// MOBILE VERSION TODO
-// 
-
-
-// @media only screen and (max-width: 10px) {
-//   .home{
-//     grid-template-columns: 1fr;
-//     padding: 3em 0;
-//     background-color: rgba(255, 255, 255, .5);
-//     backdrop-filter: blur(20px);
-//   }
-//   .inner-section{
-//     background-color: rgba(55, 55, 55, .5);
-//   }
-// }
 
 </style>
