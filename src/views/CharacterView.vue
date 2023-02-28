@@ -7,7 +7,8 @@
           :value="character?.[field.value]"
           @input="event => text = updateCharacter(field.value, event.target.value)"
           @wheel.prevent="event => text = changePoint(field.scrollable, field.value, event.target.value, event.deltaY)"
-          :class="field.circle ? 'round-input' : ''"
+          @click="activate($event)"
+          :class="inputClasses(field)"
           :style="field.styles"
         />
         <textarea
@@ -44,6 +45,7 @@ export default {
     return {
       character: {},
       delayed: false,
+      activated: false,
       fields: [
         {type: 'textarea', value: 'specialAbilities', styles: 'left:50px; top:65px; width: 270px; height: 350px;'},
 
@@ -56,10 +58,10 @@ export default {
         {type: 'input', value: 'materials', scrollable: true, circle: true, styles: 'left:29px; top:1530px' },
         {type: 'input', value: 'parts', scrollable: true, circle: true, styles: 'left:276px; top:1528px' },
 
-        {type: 'input', value: 'name', scrollable: true, styles: 'left:410px; top:57px; width: 200px;' },
-        {type: 'input', value: 'descriptor', scrollable: true, styles: 'left:405px; top:136px; width: 100px; text-align: right;' },
-        {type: 'input', value: 'type', scrollable: true, styles: 'left:510px; top:136px; width: 100px; text-align: left;' },
-        {type: 'input', value: 'focus', scrollable: true, styles: 'left:410px; top:200px; width: 170px;' },
+        {type: 'input', value: 'name', styles: 'left:410px; top:57px; width: 200px;' },
+        {type: 'input', value: 'descriptor', styles: 'left:405px; top:136px; width: 100px; text-align: right;' },
+        {type: 'input', value: 'type', styles: 'left:510px; top:136px; width: 100px; text-align: left;' },
+        {type: 'input', value: 'focus', styles: 'left:410px; top:200px; width: 170px;' },
 
         {type: 'input', value: 'might', scrollable: true, styles: 'left:447px; top:241px; font-size: 2em; width: 2em;' },
         {type: 'input', value: 'mightpool', scrollable: true, circle: true, styles: 'left:383px; top:235px;' },
@@ -126,6 +128,7 @@ export default {
       const res = updateCharacter(slot, value, this.$route.params.player);
     },
     changePoint(scrollable, stat, value, event){
+      if(!this.activated) return;
       if(!scrollable) return;
       if(this.delayed) return;
       if(!value) value = 0;
@@ -138,7 +141,17 @@ export default {
       if(type !== 'span') return
       const newValue = !this.character[slot];
       this.updateCharacter(slot, newValue);
-    }
+    },
+    activate(e){
+      this.activated = !this.activated;
+      e.target.classList.toggle('activated');
+    },
+    inputClasses(field){
+      if(field.circle) return 'round-input'
+      if(field.scrollable) return 'scrollable-input'
+      return ''
+    },
+
   },
 };
 </script>
@@ -171,6 +184,9 @@ export default {
     input:hover{
       border-bottom: 3px solid rgb(120, 23, 90);
     }
+    .activated {
+      color: rgb(203, 0, 139);
+    }
     span {
       padding: 20px;
       display: block;
@@ -189,6 +205,17 @@ export default {
       height: 35px;
       border: 3px solid rgba(255, 255, 255, 0);
       border-radius: 50%;
+      cursor: pointer;
+    }
+    .scrollable-input{
+      border: 0px solid #FFF;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .scrollable-input:hover{
+      // box-shadow: inset 0 0 10px 0px rgba(120, 23, 90, 0.15);
+      text-shadow: 0 0 4px rgba(203, 0, 139, .5);
+      border: 0px solid #FFF;
     }
     .round-input:hover{
       border: 3px solid rgb(120, 23, 90);
