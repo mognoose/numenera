@@ -40,6 +40,7 @@ body {
   background-size: 1056px 1632px;
   background-position: top left;
   background-repeat: no-repeat;
+  background-attachment: local;
   height: 1632px;
   max-width: 1056px;
   box-shadow: 10px 0px 50px 0px rgba(84, 140, 146, 0.55);
