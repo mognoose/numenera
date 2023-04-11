@@ -128,7 +128,8 @@ export default {
       this.rolling = true
       this.roll = false
       const campaign = await getCampaignByCode(this.$route.params.id);
-      const res = await getRoll(this.char || 'SUPERGOD GM', this.dice, campaign.diceChannel);
+      const roller = this.char !== 'unknown' ? this.char : 'SUPERGOD GM';
+      const res = await getRoll(roller, this.dice, campaign.diceChannel);
       this.roll = res.data.result
       setTimeout(() => {
         this.rolling = false
