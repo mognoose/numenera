@@ -24,6 +24,11 @@
     </div>
 
     <div class="modal dice-modal" v-if="dice">
+      <div class="corner-check" v-if="this.char === 'unknown'">
+        <h5>Hide roll</h5>
+        <input type="checkbox" name="hidden" id="hidden" v-model="hidden">
+        <label for="hidden">{{ hidden ? 'Hidden' : 'Showing' }}</label>
+      </div>
       <div class="message">
         <h1>{{ rolling ? `Rolling D${dice}` : roll ? `Rolled ${roll} ( D${dice} )` : `${dice ? 'Click dice to roll D'+dice : 'No dice selected'}`}}</h1>
       </div>
@@ -89,6 +94,7 @@ export default {
       dice: null,
       roll: 1,
       rolling: false,
+      hidden: false,
     }
   },
   computed: {
@@ -273,6 +279,24 @@ export default {
     grid-row-start: 2;
     grid-column-start: 2;
   }
+  .corner-check{
+    align-self: center;
+    text-align: left;
+    h5{
+      padding: 0;
+      margin: 0;
+    }
+    label{
+      margin: 0;
+      padding: 0;
+      font-size: .75rem;
+    }
+    input{
+      margin: .25rem .25rem 0 0;
+      padding: 0;
+    }
+  }
+
   .message {
     grid-column-start: 2;
   }
