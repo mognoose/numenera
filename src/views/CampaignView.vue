@@ -11,7 +11,7 @@
             id="story-text"
             :contenteditable="readMore"
             @input="onSave"
-            :style="readMore ? 'height: auto; min-height: 90px' : `height: 90px`"
+            :style="readMore ? 'max-height: 1000px; overflow: auto; height: auto; min-height: 90px' : `height: 90px`"
             @click="readMore = true"
           >
             {{campaign.story}}
