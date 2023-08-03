@@ -83,7 +83,7 @@ export const getRoll = async (char, dice, channel) => {
               'Content-Type': 'application/json'
             }
         }
-        return await axios.post(process.env.VUE_APP_API_URL, data, config)
+        return await axios.post(`${process.env.VUE_APP_API_URL}/roll/`, data)
 
     } catch (error) {
         console.error(error);
